@@ -1,0 +1,16 @@
+<ion-view view-title="Lista de Clientes">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="cliente in clientes">
+        {{cliente.nome}}
+        <ion-option-button class="button-balanced" ng-click="visualizar(cliente.id)">Visualizar</ion-option-button>
+        <ion-option-button class="button-positive" ng-click="alterar(cliente.id)">Editar</ion-option-button>
+        <ion-option-button class="button-assertive" ng-click="excluir(cliente.id)">Excluir</ion-option-button>
+        <ion-option-button class="button-royal"
+                           onclick="window.open('https://mail.google.com/mail/?view=cm&amp;tf=1&amp;to=test@gmail.com&amp;cc=&amp;bcc=&amp;su=&amp;body=','_blank');return false;">
+          E-mail
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

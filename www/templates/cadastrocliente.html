@@ -1,0 +1,41 @@
+<ion-view view-title="Cadastro de Cliente">
+  <ion-content>
+    <div class="list">
+      <form ng-submit="adicionar()">
+        <label class="item item-input">
+          <input type="text" placeholder="Nome" ng-model="cliente.nome" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="email" name="eamil" placeholder="E-mail" ng-model="cliente.email" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" name="urstel" placeholder="Telefone"  ng-model="cliente.telefone" ui-br-phone-number ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Rua" ng-model="cliente.rua" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Bairro" ng-model="cliente.bairro" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="number" placeholder="N°" ng-model="cliente.numero" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" name="field" ng-model="cliente.cep" ui-br-cep-mask ng-required="true" placeholder="Cep." ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Cidade" ng-model="cliente.cidade" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Estado" ng-model="cliente.estado" ng-required="true" ng-disabled="isVisualizando">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Complemento" ng-model="cliente.complemento" ng-disabled="isVisualizando">
+        </label>
+        <button class="button button-block button-positive" type="submit" ng-hide="isVisualizando">
+          Salvar
+        </button>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

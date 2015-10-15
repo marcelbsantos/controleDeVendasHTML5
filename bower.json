@@ -1,0 +1,10 @@
+{
+  "name": "vendas",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.1.0"
+  },
+  "dependencies": {
+    "angular-input-masks": "~2.1.0"
+  }
+}
