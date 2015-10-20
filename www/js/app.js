@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase', 'ui.utils.masks'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase', 'ui.utils.masks', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaPush) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,6 +20,51 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase',
       StatusBar.styleDefault();
     }
   });
+
+
+    var androidConfig = {
+      "senderID": "1059902605332",
+    };
+
+    document.addEventListener("deviceready", function(){
+      $cordovaPush.register(androidConfig).then(function(result) {
+        console.log("Sucesso");
+      }, function(err) {
+        console.log(err);
+      })
+
+      $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+        switch(notification.event) {
+          case 'registered':
+            if (notification.regid.length > 0 ) {
+              alert('registration ID = ' + notification.regid);
+            }
+            break;
+
+          case 'message':
+            // this is the actual push notification. its format depends on the data model from the push server
+            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+            break;
+
+          case 'error':
+            alert('GCM error = ' + notification.msg);
+            break;
+
+          default:
+            alert('An unknown GCM event has occurred');
+            break;
+        }
+      });
+
+
+      // WARNING: dangerous to unregister (results in loss of tokenID)
+/*      $cordovaPush.unregister(options).then(function(result) {
+        // Success!
+      }, function(err) {
+        // Error
+      })*/
+
+    }, false);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

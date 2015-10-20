@@ -1,4 +1,4 @@
-app.controller('clienteCtrl', function($scope, $state, $stateParams, $window, clienteBDService) {
+app.controller('clienteCtrl', function($scope, $state, $stateParams, $window, clienteBDService, $rootScope) {
   $scope.clientes = clienteBDService.lista();
 
   $scope.cliente = {};
@@ -24,6 +24,7 @@ app.controller('clienteCtrl', function($scope, $state, $stateParams, $window, cl
     $window.location.reload(true);
   };
 
+  $rootScope.$broadcast('$cordovaPush:notificationReceived', { any: {} });
 
   $scope.email = function(){
     window.open('test@example.com?subject=subject&body=body');
