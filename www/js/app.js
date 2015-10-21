@@ -4,39 +4,39 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase', 'ui.utils.masks', 'ngCordova'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase', 'ui.utils.masks', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
 
-.run(function($ionicPlatform, $cordovaPush) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+  .run(function ($ionicPlatform, $cordovaPush) {
+    $ionicPlatform.ready(function () {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    });
 
 
     var androidConfig = {
       "senderID": "1059902605332",
     };
 
-    document.addEventListener("deviceready", function(){
-      $cordovaPush.register(androidConfig).then(function(result) {
+    document.addEventListener("deviceready", function () {
+      $cordovaPush.register(androidConfig).then(function (result) {
         console.log("Sucesso");
-      }, function(err) {
+      }, function (err) {
         console.log(err);
       })
 
-      $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
-        switch(notification.event) {
+      $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+        switch (notification.event) {
           case 'registered':
-            if (notification.regid.length > 0 ) {
+            if (notification.regid.length > 0) {
               alert('registration ID = ' + notification.regid);
             }
             break;
@@ -58,81 +58,89 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'firebase',
 
 
       // WARNING: dangerous to unregister (results in loss of tokenID)
-/*      $cordovaPush.unregister(options).then(function(result) {
-        // Success!
-      }, function(err) {
-        // Error
-      })*/
+      /*      $cordovaPush.unregister(options).then(function(result) {
+       // Success!
+       }, function(err) {
+       // Error
+       })*/
 
     }, false);
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-
-    .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
+  .config(['$ionicAppProvider', function($ionicAppProvider) {
+    $ionicAppProvider.identify({
+      app_id: '96cb4417',
+      api_key: '5ec4011beaea3deb31936a1ec9c364e42da51be1c5c7a604',
+      dev_push: true
+    });
+  }])
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.listadeclientes', {
-      url: '/listadeclientes',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/listadeclientes.html',
-          controller: 'clienteCtrl'
-        }
-      }
-    })
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
 
-    .state('app.cadastrodecliente', {
-      url: '/cadastrodecliente',
-      views: {
-        'menuContent': {
-          templateUrl: '/templates/cadastrocliente.html',
-          controller: 'clienteCtrl'
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'AppCtrl'
+      })
+
+      .state('app.search', {
+        url: '/search',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/search.html'
+          }
         }
-      }
-    })
-    .state('app.updatecliente', {
-      url: '/updatecliente/:clienteId/:visualizar',
-      views: {
-        'menuContent': {
-          templateUrl: '/templates/cadastrocliente.html',
-          controller: 'clienteCtrl'
+      })
+
+      .state('app.browse', {
+        url: '/browse',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/browse.html'
+          }
         }
-      }
-    })
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
+      })
+      .state('app.listadeclientes', {
+        url: '/listadeclientes',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/listadeclientes.html',
+            controller: 'clienteCtrl'
+          }
+        }
+      })
+
+      .state('app.cadastrodecliente', {
+        url: '/cadastrodecliente',
+        views: {
+          'menuContent': {
+            templateUrl: '/templates/cadastrocliente.html',
+            controller: 'clienteCtrl'
+          }
+        }
+      })
+      .state('app.updatecliente', {
+        url: '/updatecliente/:clienteId/:visualizar',
+        views: {
+          'menuContent': {
+            templateUrl: '/templates/cadastrocliente.html',
+            controller: 'clienteCtrl'
+          }
+        }
+      })
+      .state('app.single', {
+        url: '/playlists/:playlistId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/playlist.html',
+            controller: 'PlaylistCtrl'
+          }
+        }
+      });
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/app/listadeclientes');
   });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/listadeclientes');
-});
 
 app.constant('FIREBASE_URI', 'https://controledevendas.firebaseio.com/');
